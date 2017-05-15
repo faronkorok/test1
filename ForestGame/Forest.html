@@ -1,56 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Forest Adventure </title>
+<title> Everest Adventure </title>
 </head>
 <body>
+<center> 
 <img src="" width="300px" height = "267px">
 <p id ="output"> </p>
 <input id ="input" type ="text" placeholder = "Enter your action...">
-<button> Enter </button>
+<button> Enter </button> 
+</center>
 <script>
-var map = [];
+	var map = [];
 
-map[0] = " An old stone keep";
-map[1] = " A deep well";
-map[2] = " A sunny glade";
-map[3] = " A sleeping dragon";
-map[4] = " A narrow pathway";
-map[5] = " An ancient gate";
-map[6] = " The edge of a river";
-map[7] = " A lonely wooden bench";
-map[8] = " An isolated cottage. Faint music comes from inside";
+	map[0] = "Everest peak. The air is bitterly cold with a chilly wind.";
+	map[1] = "Everest peak. The mountain slope is steep and rocky.";
+	map[2] = "Everest peak. You appear to be close to the summit.";
+	map[3] = "You arrive near base camp. You see a friendly llama nearby.";
+	map[4] = "Everest peak. A nasty drop is below you.";
+	map[5] = "Everest peak. The summit seems farther away than before.";
+	map[6] = "Everest peak. From here you can travel in several directions.";
+	map[7] = "Everest peak. Snow pileshigh on the steep slope.";
+	map[8] = "Everest peak. The frozen path up is hard to make out.";
 
-var actionsIknow = ["north", "east", "south", "west"]
+	var actionsIknow = ["north", "east", "south", "west", "take", "drop", "use"];
 
-var imgs =[];
-imgs[0] = "images/keep.png";
-imgs[1] = "images/well.png";
-imgs[2] = "images/glade.png";
-imgs[3] = "images/dragon.png";
-imgs[4] = "images/path.png";
-imgs[5] = "images/gate.png";
-imgs[6] = "images/river.png";
-imgs[7] = "images/bench.png";
-imgs[8] = "images/cottage.png";
+	var imgs =[];
+	imgs[0] = "images/climbing-mount-everest-1.jpg";
+	imgs[1] = "images/climbing-mount-everest-2.jpg";
+	imgs[2] = "images/climbing-mount-everest-3.jpg";
+	imgs[3] = "images/alpaca-mountain.png";
+	imgs[4] = "images/climbing-mount-everest-5.jpg";
+	imgs[5] = "images/climbing-mount-everest-6.jpg";
+	imgs[6] = "images/climbing-mount-everest-7.jpg";
+	imgs[7] = "images/climbing-mount-everest-8.jpg";
+	imgs[8] = "images/climbing-mount-everest-9.jpg";
 
-var blockedPathMessages = [];
-blockedPathMessages[0] = "It's way too dangerous to move that way!";
-blockedPathMessages[1] = "A mountain blocks your path!";
-blockedPathMessages[2] = "It's too dark!";
-blockedPathMessages[3] = "A cliff blocks your way!";
-blockedPathMessages[4] = "an evil forest blocks your way!";
-blockedPathMessages[5] = "a monster blocks your way!";
-blockedPathMessages[6] = "a Trade Federation blockade is in your way!";
-blockedPathMessages[7] = "a deep dark cave blocks your way ... menacingly!";
-blockedPathMessages[8] = "a yuuuge wall blocks the path to Mexico.";
+	var blockedPathMessages = [];
+	blockedPathMessages[0] = "It's way too dangerous to move that way!";
+	blockedPathMessages[1] = "A mountain blocks your path!";
+	blockedPathMessages[2] = "It's too steep!";
+	blockedPathMessages[3] = "A cliff blocks your way!";
+	blockedPathMessages[4] = "an evil wolf pack blocks your way!";
+	blockedPathMessages[5] = "a monster blocks your way!";
+	blockedPathMessages[6] = "a nasty drop looms below, yikes!";
+	blockedPathMessages[7] = "a deep dark crevice blocks your way ... menacingly!";
+	blockedPathMessages[8] = "a wall of ice blocks the way.";
 
-var items = ["flute", "stone", "sword"];
-var itemsLocation = [1, 6, 8];
-var backpack = [];
+	var items = ["flute", "stone", "sword"];
+	var itemsLocation = [1, 6, 8];
+	var backpack = [];
 
-var itemsIknow = ["flute", "stone", "sword"];
-var item = "";
+	var itemsIknow = ["flute", "stone", "sword"];
+	var item = "";
 
 
 //Default starting location//
@@ -67,11 +69,12 @@ var input = document.querySelector("#input");
 var button = document.querySelector("button");
 button.style.cursor = "pointer";
 button.addEventListener("click", clickHandler, false);
-
 var image = document.querySelector("img");
 
 //Functions for Game//
+
 render();
+
 function clickHandler(){
 	playGame();
 }
@@ -84,15 +87,14 @@ function playGame(){
 	action = "";
 
 	for(i = 0; i < actionsIknow.length; i++){
-		if(playerInput.indexOf(actionsIknow[i] !== -1)){
+		if(playerInput.indexOf(actionsIknow[i]) !== -1){
 			action = playerInput;
 			console.log("player's action: " + action);
 			break;
-
 		}
 	}
 
-	for( i=0;i, itemIknow.length; i++){
+	for( i=0;i < itemsIknow.length; i++){
 		if(playerInput.indexOf(itemsIknow[i]) !== -1){
 			item = itemsIknow[i];
 			console.log("Player's item: " + item);
@@ -123,7 +125,6 @@ function playGame(){
 			}else{
 				gameMessage = blockedPathMessages[mapLocation];
 			}
-
 			break;
 
 		case "west":
@@ -143,7 +144,7 @@ function playGame(){
 			break;
 
 		case "use":
-			//useItem()
+			useItem()
 			break;
 
 
@@ -168,11 +169,10 @@ function render(){
 		}
 	}
 
-	//displays game message//
+//displays game message//
 	output.innerHTML += "<br> <em>" + gameMessage + "</em>";
 
 	if(backpack.length !== 0){
-
 		output.innerHTML += "<br> You are carrying: " + backpack.join(",")
 	}
 
@@ -181,9 +181,10 @@ function render(){
 function takeItem(){
 	var itemIndexNumber = items.indexOf(item);
 	if(itemIndexNumber !== -1 && itemsLocation[itemIndexNumber]){
+		
 		gameMessage = "You take the: " + item + ".";
 		backpack.push(item);
-		items.splice(itemIndexNumber, 1);
+		itemsIknow.splice(itemIndexNumber, 1);
 		itemsLocation.splice(itemIndexNumber, 1);
 	}else{
 		gameMessage = "There are no items left to take.";
@@ -207,6 +208,57 @@ function dropItem(){
 
 		}
 	}
+
+function useItem(){
+	var backpackIndexNumber = backpack.indexOf(item)
+	if(backpackIndexNumber === -1){
+		gameMessage = "You're not carrying it.";
+	}
+	if (backpack.length === 0){
+		gameMessage += "Your backpack is empty!";
+	}
+	if (backpackIndexNumber !== -1){
+		switch(item){
+			case "flute":
+				if(mapLocation === 8){
+					gameMessage = "Beautiful music fills the air.";
+					gameMessage += "A wizened old man steps outside";
+					gameMessage += "and hands you a sword.";
+					items.push("sword");
+					itemsLocation.push(mapLocation);
+				}else{
+					gameMessage = "You try to play the flute,";
+					gameMessage += "but it makes no sound.";
+				}
+			break;
+
+			case "sword":
+				if(mapLocation === 3){
+					gameMessage = "You swing and slay the dragon,";
+					gameMessage += "you saved the Forest!";
+				}else{
+					gameMessage = "You swing the sword, nothing happens"
+				}
+			break;
+
+			case "stone":
+				if(mapLocation === 1){
+					gameMessage = "You drop the stone in the well.";
+					gameMessage += "A magical flute appears."
+					backpack.splice(backpackIndexNumber, 1);
+					items.push("flute");
+					itemsLocation.push(mapLocation);
+				}else{
+					gameMessage = "You fumble with the stone in your pocket."
+				}
+			break;
+		}
+	}
+}
+
+
+
+
 
 </script>
 
